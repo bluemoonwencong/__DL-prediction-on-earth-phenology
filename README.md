@@ -35,6 +35,10 @@
 ```bash
 # python 3.6
 # tenforslow 1.11.0
+# 作者：bluove
+# 首发于：https://github.com/bluove/__DL-prediction-on-earth-phenology
+# 应该首先把数据都放在 ./data 文件夹下，分24个文件夹。
+# 申明：本项目完全由本人独立完成，任何来自于其他人的idea,代码，论文，技术博客，qq群讨论，都在本readme里被引用（或者在源码注释里被引用）
 
 git clone git@github.com:bluove/Deep-learning-prediction-on-earth-phenology.git
 
@@ -44,7 +48,7 @@ cd model_self_v2
 
 python run.py
 # 用笔记本移动版本的1060显卡，大概要跑80h。
-# 如果要快点跑完流程，可以把./model_self_v2/HEADio.py里的参数EPOCH改为：
+# 如果要快速跑完流程（验证能不能跑），可以把./model_self_v2/HEADio.py里的参数EPOCH改为：
 # EPOCH = int(1200/WIDTH)*int(1200/WIDTH)*0 + 2
 
 cd ..
@@ -158,7 +162,7 @@ cache1 !=cache2
 
 确定超参数之后，再把所有数据都用于训练，输出题目要求的tif图片。
 
-### 4.改进
+### 4.改进策略
 
 1. 再训练更长一段时间。距离提交前三天还在修改模型结构，这点，其实未必有什么很大的帮助，可能直接几层conv几层fc就能有很好的效果如果配上好的训练策略的话。
 
@@ -167,6 +171,7 @@ cache1 !=cache2
 3. 更宽的网络，更多的feature。现在网络的宽度是24，可能少了点。
 
 4. 把普通conv换成OctConv，这个天然包含"频率"的观点。
+
 
 ### 5.源码阅读文档
 
@@ -182,14 +187,22 @@ os.system(f"python ./main.py pre_train_for_all_zone {lamda}")
 for _ in ['Z'+str(i) for i in range(1,25)]:
     os.system(f"python ./main.py {_} {lamda}")
 
+
+
 # ----------------------HEADio.py---------------------------
 负责IO部分，比如把原始数据转为tfrecords，负责利用训练好的网络给出输出文件。
+
+
 
 # -----------------------main.py----------------------------
 建模，构建loss，训练
 
+
+
 # --------------------littletool.py-------------------------
 定义一系列脚手架函数，如conv, pool, aspp, res_block ...
+
+
 
 # -----------------------cell.py----------------------------
 定义convlstm cell
@@ -198,7 +211,7 @@ for _ in ['Z'+str(i) for i in range(1,25)]:
 
 ## 总结
 
-**失败。已经超过截至时间大约10个小时了，但本周内，再，提交，一次，然后就再也不管啦干别的去。。。**
+**失败。已经超过截至时间大约10个小时了，没跑够，有空，以后，再，提交，一次，然后就再也不管啦干别的去。。。**
 
 
 ## reference
@@ -224,6 +237,8 @@ for _ in ['Z'+str(i) for i in range(1,25)]:
 >[4] 卷积长短时记忆神经网络(ConvLSTM)雷达回波图像外推 https://zhuanlan.zhihu.com/p/40712680
 
 >[5] https://github.com/gespinoza/hants
+
+> https://github.com/carlthome/tensorflow-convlstm-cell
 
 > lstm对周期性数据的效果 https://zhuanlan.zhihu.com/p/41933062
 
